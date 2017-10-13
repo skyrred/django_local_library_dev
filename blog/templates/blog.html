@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Blog Archive {% endblock %}
+
+{% block content %}
+
+<h1 id="titleg" class="w3-contain w3-border w3-round-xlarge  " style="color:white;font-size:60px;background-color:#024237;border:5px solid white;width: 65%;text-align: center;	 "> My Blog Archive </h1>
+
+
+
+
+<div  style="width:65%;float:left;margin-left: 5px;" >
+	<div style="float:right;width:46%;">
+	{% for post in posts %}
+		<div id="postbg1" class="w3-border w3-round-xlarge" style="float:right;clear:right;width:100%;text-align: center;height:470px;background-color: #056b5a;margin:10px;">
+
+			<h2 id="ptitle1" class="w3-contain   w3-border w3-round-xlarge" style="color:white;background-color:#024237;width:100%;padding-top: 20px;margin-top: 0px;">
+			<a href="{{post.get_absolute_url}}">
+			{{post.title}}
+			</a>
+			</h2>	
+			<center>
+			<img src="{{post.url}}" style="margin:auto;width:200px;height:100px;">
+			</center>
+			<p style="color:white;text-align: left;margin:10px;font-family: Helvetica, sans-serif;">{{post.description}}</p>
+		
+			<h3 id="timebg1" class="w3-contain" style="float: right;color:white;background-color: #004D40;width:100%;">
+			Posted on
+			<time datetime="{{post.created|date:'c'}}">
+			{{post.created|date}}
+			</time>
+			</h3>
+			
+			</div><br>
+	{% endfor %}
+	</div>
+	<div style="float:left;width:46%;">
+	{% for post in posts2%}
+		<div id="postbg2" class="w3-border w3-round-xlarge" style="clear:left;width:100%;text-align: center;height:470px;background-color: #056b5a;margin-right: 20px;margin-top: 7px;">
+			<h2 id="ptitle2" class="w3-contain   w3-border w3-round-xlarge" style="color:white;background-color:#024237;width:100%;padding-top: 20px;margin-top: 0px;"><a href="{{post.get_absolute_url}}">
+			{{post.title}}</a></h2>
+			<center>
+			<img src="{{post.url}}" style="margin:auto;width:200px;height:100px;">
+			</center>
+			<p style="color:white;text-align: left;margin: 10px;"> {{post.description}}</p>
+			<h3 id="timebg2" class="w3-contain" style="float: right;color:white;background-color: #004D40;width:100%;">
+
+			post on 
+			<time  datetime="{{post2.created|date:'c'}}">
+			{{post.created|date}}
+			</time>
+			</h3>
+			</div><br>
+	{%endfor%}
+	</div>
+</div>
+
+<div  style="float:right;">
+	<center>
+	<div class="w3-contain" style="width:200px;margin:25px;" >
+	
+		<button class="w3-contain w3-border" style="width: 100px;background-color: white;color:darkgray;float:right;border-radius: 5px;cursor: pointer;" id="but" onclick="red()">Click me</button>
+		<button class="w3-contain w3-border" style="width: 100px;background-color:#004D40;color:white; float:left;border-radius: 5px;cursor: pointer; " id="but1" onclick="green()">Click me</button>
+
+	</div></center>
+	<br>
+	<br>
+	<div id="datebg" class="w3-contain w3-border " style="background-color: #056b5a;border-radius: 20px;width:430px;">
+		<h1 style="color:white;text-align: center;"> Date : </h1>
+		<h1 id="date" style="color:white;text-align: center;"></h1>
+		<h3 id="time" style="color:white;text-align: center;"></h3>
+	</div><br>
+	<div id="subbg" class="w3-contain w3-border  " style="background-color: #056b5a;width: 430px;height:240px;border:10px black solid;padding: 10px;border-radius: 20px;margin-right: 20px;	">
+	<form action="http://127.0.0.1:8000/subscribe/" method="post">{% csrf_token %}
+	 <h3 style="padding-left: 15px;color:white;">Name <input class="w3-contain w3-white w3-border w3-round-xlarge" style="padding: 5px;" type="text" name="name"></h3>
+	 <h3 style="padding-left: 15px;color:white;">Email  <input class="w3-contain w3-white w3-border w3-round-xlarge" style="padding: 5px;margin-left: 7px;" type="text" name="email"> </h3>
+	 <center>
+	 <input id="subbtn" class="w3-contain  w3-color-green w3-border-orange w3-round-xlarge" style="width: 150px;color:white;font-size: 25px;background-color: #024237;" type="submit" name="submit" value="subscribe"></center>
+	 <h5 style="color:white;float:right;">Current Subs : {{num}}</h5>
+	
+	</form>
+	</div>
+	<br>
+	<div id="catbg" class="w3-contain w3-border " style="background-color: #056b5a;border-radius: 20px;width:430px;">
+		<h2 id="cattitlebg" class="w3-contain ;" style="text-align: center;color:white;background-color: #024237;border-radius: 15px;">Categories</h2>
+    	{% if category %}
+        <ul>
+        	<li style="color:white;"><a href="http://127.0.0.1:8000/blog">All Posts </a></li>
+        	<li  style="color:white;"><a href="http://127.0.0.1:8000/news">New Posts </a></li>
+            {% for categorys in category%}
+            <li style="color:white;"><a href="{{ categorys.get_absolute_url }}">{{ categorys.name }}</a></li>
+        {% endfor %}
+        </ul>
+    	{% else %}
+        <p>There are no posts.</p>
+    	{% endif %}
+	</div>
+</div>
+{% endblock %}
